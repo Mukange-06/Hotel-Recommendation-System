@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayFinder — Hotel Recommendations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mark">◈</span>
+        <span class="logo-text">StayFinder</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#search-section">Search</a>
+        <a href="#analytics-section">Analytics</a>
+        <a href="#about-section">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">AI-Powered · RAG Pipeline · PostgreSQL</p>
+      <h1 class="hero-title">Find your ideal stay,<br /><em>intelligently.</em></h1>
+      <p class="hero-subtitle">
+        Ask in plain language. Our system searches 474 hotels, 450 bookings,
+        and thousands of verified reviews to surface the best match for you.
+      </p>
+      <a href="#search-section" class="btn-primary">Start searching</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">474</span>
+        <span class="stat-label">Hotels indexed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">474</span>
+        <span class="stat-label">Verified reviews</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Hotel categories</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">RAG</span>
+        <span class="stat-label">Retrieval pipeline</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH SECTION ===== -->
+  <section class="search-section" id="search-section">
+    <div class="container">
+      <div class="section-label">Search</div>
+      <h2 class="section-title">Ask anything about hotels</h2>
+      <p class="section-subtitle">
+        Try: "Luxury hotels in Miami with a spa under $300" or "Best-reviewed boutique hotels near the beach"
+      </p>
+
+      <div class="search-box">
+        <textarea
+          id="query-input"
+          class="search-input"
+          placeholder="Describe your ideal stay..."
+          rows="3"
+        ></textarea>
+        <div class="search-controls">
+          <div class="filter-chips" id="filter-chips">
+            <button class="chip active" data-filter="all">All categories</button>
+            <button class="chip" data-filter="luxury">Luxury</button>
+            <button class="chip" data-filter="boutique">Boutique</button>
+            <button class="chip" data-filter="business">Business</button>
+            <button class="chip" data-filter="budget">Budget</button>
+          </div>
+          <button class="btn-search" id="search-btn">
+            <span class="btn-text">Search</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-area" id="results-area">
+        <div class="results-placeholder">
+          <div class="placeholder-icon">◈</div>
+          <p>Your results will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ANALYTICS SECTION ===== -->
+  <section class="analytics-section" id="analytics-section">
+    <div class="container">
+      <div class="section-label">Analytics</div>
+      <h2 class="section-title">Portfolio insights</h2>
+      <p class="section-subtitle">Run prebuilt SQL queries against the live database.</p>
+
+      <div class="query-grid">
+
+        <div class="query-card" data-query="agg1">
+          <div class="query-tag">AGG-1</div>
+          <h3 class="query-title">Revenue by category</h3>
+          <p class="query-desc">Total revenue, average booking value, and booking count broken down by hotel category.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-agg1"></div>
+        </div>
+
+        <div class="query-card" data-query="agg2">
+          <div class="query-tag">AGG-2</div>
+          <h3 class="query-title">Ratings by city</h3>
+          <p class="query-desc">Average review rating per city. Filtered to cities with at least 5 reviews.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-agg2"></div>
+        </div>
+
+        <div class="query-card" data-query="join1">
+          <div class="query-tag">JOIN-1</div>
+          <h3 class="query-title">Booking ledger</h3>
+          <p class="query-desc">Full booking details: guest, hotel, room type, dates, nights, and status.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-join1"></div>
+        </div>
+
+        <div class="query-card" data-query="join2">
+          <div class="query-tag">JOIN-2</div>
+          <h3 class="query-title">Top-reviewed hotels</h3>
+          <p class="query-desc">Best-rated properties with star rating, review count, and helpful vote totals.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-join2"></div>
+        </div>
+
+        <div class="query-card" data-query="sub1">
+          <div class="query-tag">SUB-1</div>
+          <h3 class="query-title">Above-average pricing</h3>
+          <p class="query-desc">Hotels priced above the portfolio average, with the premium amount shown.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-sub1"></div>
+        </div>
+
+        <div class="query-card" data-query="sub2">
+          <div class="query-tag">SUB-2</div>
+          <h3 class="query-title">Unbooked users</h3>
+          <p class="query-desc">Registered users who have never placed a booking — window-shoppers.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-sub2"></div>
+        </div>
+
+        <div class="query-card" data-query="cte1">
+          <div class="query-tag">CTE-1</div>
+          <h3 class="query-title">Monthly revenue trend</h3>
+          <p class="query-desc">Month-over-month booking revenue with change delta.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-cte1"></div>
+        </div>
+
+        <div class="query-card" data-query="cte2">
+          <div class="query-tag">CTE-2</div>
+          <h3 class="query-title">Hotel tier classification</h3>
+          <p class="query-desc">Hotels classified into Platinum / Gold / Silver / Bronze tiers by per-booking yield.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-cte2"></div>
+        </div>
+
+        <div class="query-card" data-query="win1">
+          <div class="query-tag">WIN-1</div>
+          <h3 class="query-title">Revenue rank by category</h3>
+          <p class="query-desc">Every booking ranked within its hotel category by revenue, with category average.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-win1"></div>
+        </div>
+
+        <div class="query-card" data-query="win2">
+          <div class="query-tag">WIN-2</div>
+          <h3 class="query-title">Cumulative guest spend</h3>
+          <p class="query-desc">Running total of bookings and spend per guest over time — reveals loyal customers.</p>
+          <button class="btn-run">Run query</button>
+          <div class="query-result" id="result-win2"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="about-section" id="about-section">
+    <div class="container about-inner">
+      <div class="about-text">
+        <div class="section-label">About</div>
+        <h2 class="section-title">How it works</h2>
+        <p>
+          StayFinder is a RAG (Retrieval-Augmented Generation) pipeline built on top of a PostgreSQL 15
+          relational database. User queries are embedded using sentence-transformers, matched against
+          hotel vectors stored in Pinecone, and the top candidates are passed to an LLM for a
+          contextualised natural-language recommendation.
+        </p>
+        <p>
+          The relational layer handles aggregations, joins, subqueries, CTEs, and window functions —
+          the SQL queries powering the Analytics tab are part of the Milestone 1 deliverable for
+          Database Management Systems at IIT Madras Zanzibar.
+        </p>
+        <div class="about-authors">
+          <div class="author">
+            <span class="author-id">ZDA24B029</span>
+            <span class="author-name">Emmanuel Mukange</span>
+          </div>
+          <div class="author">
+            <span class="author-id">ZDA24B010</span>
+            <span class="author-name">Raudhat Ramadhan</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-stack">
+        <h3 class="stack-title">Tech stack</h3>
+        <ul class="stack-list">
+          <li><span class="stack-layer">Database</span> PostgreSQL 15</li>
+          <li><span class="stack-layer">Vector store</span> Pinecone</li>
+          <li><span class="stack-layer">Embeddings</span> sentence-transformers</li>
+          <li><span class="stack-layer">Backend</span> Python · FastAPI</li>
+          <li><span class="stack-layer">RAG</span> LangChain</li>
+          <li><span class="stack-layer">Frontend</span> Vanilla HTML/CSS/JS</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="logo-text">◈ StayFinder</span>
+      <span class="footer-note">IIT Madras Zanzibar · Database Management Systems · 2025–26</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
