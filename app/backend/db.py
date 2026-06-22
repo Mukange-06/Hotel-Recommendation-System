@@ -36,7 +36,7 @@ def _build_dsn() -> str:
 
     host     = os.getenv("DB_HOST",     "localhost")
     port     = os.getenv("DB_PORT",     "5432")
-    dbname   = os.getenv("DB_NAME",     "stayfinder")
+    dbname   = os.getenv("DB_NAME",     "postgres")
     user     = os.getenv("DB_USER",     "postgres")
     password = os.getenv("DB_PASSWORD", "")
 
@@ -86,14 +86,13 @@ def get_hotels_by_ids(hotel_ids: list[int]) -> list[dict]:
             h.star_rating,
             h.price_per_night,
             h.amenities,
-            h.description,
             ROUND(AVG(r.rating), 2)   AS avg_review_rating,
             COUNT(r.review_id)        AS review_count
         FROM   hotels h
         LEFT JOIN reviews r ON r.hotel_id = h.hotel_id
         WHERE  h.hotel_id = ANY(%s)
         GROUP  BY h.hotel_id, h.name, h.city, h.state, h.category,
-                  h.star_rating, h.price_per_night, h.amenities, h.description
+                  h.star_rating, h.price_per_night, h.amenities
     """
     rows = run_query(sql, (hotel_ids,))
     order = {hid: i for i, hid in enumerate(hotel_ids)}
@@ -111,14 +110,13 @@ def get_hotels_by_category(category: str, limit: int = 20) -> list[dict]:
             h.star_rating,
             h.price_per_night,
             h.amenities,
-            h.description,
             ROUND(AVG(r.rating), 2)   AS avg_review_rating,
             COUNT(r.review_id)        AS review_count
         FROM   hotels h
         LEFT JOIN reviews r ON r.hotel_id = h.hotel_id
         WHERE  LOWER(h.category) = LOWER(%s)
         GROUP  BY h.hotel_id, h.name, h.city, h.state, h.category,
-                  h.star_rating, h.price_per_night, h.amenities, h.description
+                  h.star_rating, h.price_per_night, h.amenities
         ORDER  BY avg_review_rating DESC NULLS LAST
         LIMIT  %s
     """

@@ -5,6 +5,8 @@
 # =============================================================================
 
 import os
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+
 import json
 from typing import Optional
 
@@ -106,9 +108,6 @@ def _build_hotel_context(hotel: dict, reviews: list[dict]) -> str:
     if hotel.get("amenities"):
         lines.append(f"Amenities: {hotel['amenities']}")
 
-    if hotel.get("description"):
-        lines.append(f"Description: {hotel['description']}")
-
     if reviews:
         lines.append("Recent guest reviews:")
         for r in reviews[:3]:
@@ -153,7 +152,7 @@ async def _generate(prompt: str) -> str:
     """
     client = _get_genai()
 
-    response = await client.generate_content(prompt)
+    response = await client.generate_content_async(prompt)
 
     return response.text
 
@@ -240,7 +239,6 @@ def index_hotels(hotels: list[dict]):
             hotel.get("state", ""),
             hotel.get("category", ""),
             hotel.get("amenities", ""),
-            hotel.get("description", ""),
             f"{hotel.get('star_rating', '')} stars",
             f"${hotel.get('price_per_night', '')} per night",
         ]))
@@ -254,7 +252,7 @@ def index_hotels(hotels: list[dict]):
                 "name":             hotel.get("name", ""),
                 "city":             hotel.get("city", ""),
                 "category":         (hotel.get("category") or "").lower(),
-                "star_rating":      hotel.get("star_rating"),
+                "star_rating":      float(hotel.get("star_rating") or 0),
                 "price_per_night":  float(hotel.get("price_per_night", 0)),
             }
         })
